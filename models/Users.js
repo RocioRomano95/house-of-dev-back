@@ -6,11 +6,11 @@ class User extends S.Model {
   hash(password, salt) {
     return bc.hash(password, salt);
   }
-  // validatePassword(password) {
-  //   return this.hash(password, this.salt).then(
-  //     (newHash) => newHash === this.password
-  //   );
-  // }
+  validatePassword(password) {
+    return this.hash(password, this.salt).then(
+      (newHash) => newHash === this.password
+    );
+  }
 }
 
 User.init(
