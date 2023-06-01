@@ -6,7 +6,7 @@ class User extends S.Model {}
 User.init(
   {
     name: { type: S.STRING, require: true },
-    last_name: { type: S.STRING, require: true },
+    lastname: { type: S.STRING, require: true },
     email: {
       type: S.STRING,
       require: true,
@@ -17,6 +17,7 @@ User.init(
     image: { type: S.STRING },
     phone: { type: S.INTEGER, require: true },
     is_admin: { type: S.BOOLEAN, defaultValue: false },
+    salt: { type: S.STRING },
   },
   { sequelize: db, modelName: "user" }
 );
