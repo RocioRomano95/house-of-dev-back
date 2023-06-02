@@ -51,3 +51,8 @@ exports.login_user = async (req, res) => {
     res.send(error);
   }
 };
+exports.logout_user = (req, res) => {
+  console.log("HOLA");
+  res.clearCookie("token");
+  res.sendStatus(404);
+};
