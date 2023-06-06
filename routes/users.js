@@ -13,8 +13,8 @@ router.get("/me", validateAuth, (req, res) => {
   res.send(req.user);
 });
 router.get("/logout", logout_user);
-router.use("/", (req, res) => {
-  res.sendStatus(404);
-});
+// router.use("/", (req, res) => {
+//   res.sendStatus(404);
+// });
 
 module.exports = router;
