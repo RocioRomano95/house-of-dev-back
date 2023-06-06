@@ -1,4 +1,4 @@
-const Users = require("../models/Users");
+const { Users } = require("../models");
 const { generateToken } = require("../config/token");
 
 exports.signup_user = async (req, res) => {
@@ -35,9 +35,12 @@ exports.login_user = async (req, res) => {
     if (!validatePass) return res.status(401).send("contraseña incorrecta");
 
     const payload = {
-      email: searchUser.email,
       name: searchUser.name,
       lastname: searchUser.lastname,
+      email: searchUser.email,
+      image: searchUser.image,
+      phone: searchUser.phone,
+      is_admin: searchUser.is_admin,
     };
     console.log("PAYLOAD", payload);
 
