@@ -1,9 +1,8 @@
 const { Property } = require("../models");
 
-exports.get_all_propieties = async (req, res) => {
+exports.get_all_properties = async (req, res) => {
   const property = await Property.findAll();
   try {
-    console.log("PROPERTY", property);
     if (!property) res.status(400).send("no hay propiedades");
     res.status(200).send(property);
   } catch (error) {
@@ -13,7 +12,6 @@ exports.get_all_propieties = async (req, res) => {
 
 exports.property_detail = async (req, res) => {
   const { id } = req.params;
-  console.log("ID=>", id);
   try {
     const oneProperty = await Property.findOne({
       where: { id: id },
@@ -56,9 +54,9 @@ exports.edit_property = async (req, res) => {
 };
 
 exports.delete_property = async (req, res) => {
-  const property = req.params;
-  console.log("PROPERTY=>", property);
   try {
+    const property = req.params;
+    console.log("PROPERTY=>", property);
     const deleteProperty = await Property.destroy({
       where: { id: property.id },
     });
