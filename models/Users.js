@@ -15,17 +15,21 @@ class User extends S.Model {
 
 User.init(
   {
-    name: { type: S.STRING, require: true },
-    lastname: { type: S.STRING, require: true },
+    name: { type: S.STRING, allowNull: false },
+    lastname: { type: S.STRING, allowNull: false },
     email: {
       type: S.STRING,
       require: true,
-      validate: { isEmail: true },
+      validate: { allowNull: false },
       unique: true,
     },
-    password: { type: S.STRING, require: true, validate: { notEmpty: true } },
+    password: {
+      type: S.STRING,
+      allowNull: false,
+      validate: { notEmpty: true },
+    },
     image: { type: S.STRING },
-    phone: { type: S.INTEGER, require: true },
+    phone: { type: S.INTEGER, allowNull: false },
     is_admin: { type: S.BOOLEAN, defaultValue: false },
     salt: { type: S.STRING },
   },
