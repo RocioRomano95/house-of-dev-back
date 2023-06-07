@@ -15,16 +15,15 @@ exports.signup_user = async (req, res) => {
     res.status(200).send(newUser);
   } catch (error) {
     console.log("ERROR", error);
-    res.send(error);
+    res.send(error.message);
   }
 };
 exports.login_user = async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    console.log("REQBODY de LOG", req.body);
+  const { password } = req.body;
+  let email = req.body.email.toLowerCase();
 
+  try {
     const searchUser = await Users.findOne({ where: { email } });
-    console.log("SEARCH USER login=>", searchUser);
 
     if (!searchUser) {
       return res.status(401).send("email incorrecto");
@@ -51,7 +50,7 @@ exports.login_user = async (req, res) => {
 
     res.send(payload);
   } catch (error) {
-    res.send(error);
+    res.send(error.message);
   }
 };
 exports.logout_user = (req, res) => {
