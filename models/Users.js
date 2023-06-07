@@ -15,30 +15,39 @@ class User extends S.Model {
 
 User.init(
   {
-    name: { type: S.STRING, allowNull: false },
-    lastname: { type: S.STRING, allowNull: false },
+    name: { type: S.STRING, validate: { notEmpty: true } },
+    lastname: { type: S.STRING, validate: { notEmpty: true } },
     email: {
       type: S.STRING,
       require: true,
-      validate: { allowNull: false },
+      validate: { notEmpty: true, isEmail: true },
       unique: true,
     },
     password: {
       type: S.STRING,
-      allowNull: false,
       validate: { notEmpty: true },
     },
     image: { type: S.STRING },
-    phone: { type: S.INTEGER, allowNull: false },
+    phone: { type: S.INTEGER, validate: { notEmpty: true } },
     is_admin: { type: S.BOOLEAN, defaultValue: false },
     salt: { type: S.STRING },
   },
   { sequelize: db, modelName: "user" }
 );
 
+// User.beforeSave((user) => {
+//   if (user.email) {
+//     user.email = user.email.toLowerCase();
+//   }
+// });
+
 User.beforeCreate((user) => {
   const salt = bc.genSaltSync();
   user.salt = salt;
+
+  if (user.email) {
+    user.email = user.email.toLowerCase();
+  }
 
   return user
     .hash(user.password, salt)
