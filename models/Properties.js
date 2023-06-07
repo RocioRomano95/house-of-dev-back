@@ -5,16 +5,16 @@ class Property extends S.Model {}
 
 Property.init(
   {
-    description: { type: S.STRING, require: true },
-    address: { type: S.STRING, require: true },
-    price: { type: S.INTEGER, require: true },
+    description: { type: S.STRING, validate: { notEmpty: true } },
+    address: { type: S.STRING, validate: { notEmpty: true } },
+    price: { type: S.INTEGER, validate: { notEmpty: true } },
     image: { type: S.STRING },
-    locality: { type: S.STRING, require: true },
-    bedrooms: { type: S.INTEGER, require: true },
-    baths: { type: S.INTEGER, require: true },
-    square_meters: { type: S.INTEGER, require: true },
-    post_date: { type: S.STRING, require: true },
-    state: { type: S.STRING, require: true },
+    locality: { type: S.STRING, validate: { notEmpty: true } },
+    bedrooms: { type: S.INTEGER, validate: { notEmpty: true } },
+    baths: { type: S.INTEGER, validate: { notEmpty: true } },
+    square_meters: { type: S.INTEGER, validate: { notEmpty: true } },
+    post_date: { type: S.STRING, validate: { notEmpty: true } },
+    state: { type: S.STRING, validate: { notEmpty: true } },
   },
   { sequelize: db, modelName: "property" }
 );
