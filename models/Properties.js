@@ -13,7 +13,7 @@ Property.init(
     bedrooms: { type: S.INTEGER, validate: { notEmpty: true } },
     baths: { type: S.INTEGER, validate: { notEmpty: true } },
     square_meters: { type: S.INTEGER, validate: { notEmpty: true } },
-    post_date: { type: S.STRING, validate: { notEmpty: true } },
+    post_date: { type: S.DATE, validate: { notEmpty: true } },
     state: { type: S.STRING, validate: { notEmpty: true } },
   },
   { sequelize: db, modelName: "property" }

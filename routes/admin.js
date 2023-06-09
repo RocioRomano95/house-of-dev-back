@@ -8,6 +8,6 @@ const {
 
 router.post("/create", add_property);
 router.put("/edit-property", edit_property);
-router.delete("/:id", delete_property);
+router.delete("/delete-property/:id", delete_property);
 
 module.exports = router;
