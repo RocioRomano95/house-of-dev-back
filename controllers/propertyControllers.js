@@ -74,12 +74,11 @@ exports.edit_property = async (req, res) => {
 exports.delete_property = async (req, res) => {
   try {
     const property = req.params;
-    console.log("PROPERTY=>", property);
+
     const deleteProperty = await Property.destroy({
       where: { id: property.id },
     });
-    console.log("DELETE PROPERTY=>", deleteProperty);
-    console.log("RESS=>", res.sendStatus(202));
+    res.sendStatus(202);
   } catch (error) {
     console.log("ERROR", error);
   }
