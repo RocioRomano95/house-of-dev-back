@@ -11,7 +11,7 @@ exports.signup_user = async (req, res) => {
       return res.status(400).send("Este usuario ya existe");
     }
     const newUser = await Users.create(req.body);
-    console.log("newUUUUser", newUser);
+
     res.status(200).send(newUser);
   } catch (error) {
     console.log("ERROR", error);

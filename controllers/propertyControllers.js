@@ -73,10 +73,10 @@ exports.edit_property = async (req, res) => {
 
 exports.delete_property = async (req, res) => {
   try {
-    const property = req.params;
+    const property = req.params.id;
 
     const deleteProperty = await Property.destroy({
-      where: { id: property.id },
+      where: { id: property },
     });
     res.sendStatus(202);
   } catch (error) {
@@ -92,7 +92,7 @@ exports.search_locality = async (req, res) => {
     });
     if (!oneProperty)
       return res.send("no se encontraron propiedades en esta localidad");
-    console.log("ONEPROP=>", oneProperty);
+    console.log("ONEPROPee=>", oneProperty);
     res.status(200).send(oneProperty);
   } catch (error) {
     console.log("ERROR", error.message);

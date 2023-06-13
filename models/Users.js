@@ -28,7 +28,7 @@ User.init(
       validate: { notEmpty: true },
     },
     image: { type: S.STRING },
-    phone: { type: S.INTEGER, validate: { notEmpty: true } },
+    phone: { type: S.BIGINT, validate: { notEmpty: true } },
     is_admin: { type: S.BOOLEAN, defaultValue: false },
     salt: { type: S.STRING },
   },
