@@ -4,6 +4,7 @@ const {
   signup_user,
   login_user,
   logout_user,
+  edit_user,
 } = require("../controllers/userControllers");
 const { validateAuth } = require("../middlerwares");
 
@@ -13,6 +14,7 @@ router.get("/me", validateAuth, (req, res) => {
   res.send(req.user);
 });
 router.get("/logout", logout_user);
+router.put("/edit-user", edit_user);
 // router.use("/", (req, res) => {
 //   res.sendStatus(404);
 // });

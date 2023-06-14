@@ -85,10 +85,11 @@ exports.delete_property = async (req, res) => {
 };
 
 exports.search_locality = async (req, res) => {
-  const { locality } = req.params;
+  const { locality, state } = req.params;
   try {
+    //trame todas las propiedades
     const oneProperty = await Property.findAll({
-      where: { locality },
+      where: { locality, state },
     });
     if (!oneProperty)
       return res.send("no se encontraron propiedades en esta localidad");
