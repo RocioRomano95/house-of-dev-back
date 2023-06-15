@@ -12,7 +12,6 @@ exports.signup_user = async (req, res) => {
       return res.status(400).send("Este usuario ya existe");
     }
     const newUser = await Users.create(req.body);
-
     res.status(200).send(newUser);
   } catch (error) {
     console.log("ERROR", error);
@@ -81,7 +80,7 @@ exports.edit_user = async (req, res) => {
 
     const token = generateToken(payload);
     console.log("TOKEN", token);
-
+res.clearCookie("token") ;
     res.cookie("token", token);
 
     res.status(201).send(searchUser[1][0]);
