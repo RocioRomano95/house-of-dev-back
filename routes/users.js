@@ -6,15 +6,15 @@ const {
   logout_user,
   edit_user,
 } = require("../controllers/userControllers");
-const { validateAuth } = require("../middlerwares");
+const { validateAuth } = require("../middlewares");
 
 router.post("/signup", signup_user);
 router.post("/login", login_user);
 router.get("/me", validateAuth, (req, res) => {
   res.send(req.user);
 });
-router.get("/logout", logout_user);
-router.put("/edit-user", edit_user);
+router.get("/logout", validateAuth, logout_user);
+router.put("/edit-user", validateAuth, edit_user);
 // router.use("/", (req, res) => {
 //   res.sendStatus(404);
 // });

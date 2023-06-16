@@ -11,4 +11,13 @@ function validateAuth(req, res, next) {
 
   next();
 }
-module.exports = { validateAuth };
+
+const isAdmin = (req, res, next) => {
+  if (req.user.is_admin) {
+    next();
+  } else {
+    res.status(403).send("Acceso denegado"); // Usuario no es un administrador, deniega el acceso
+  }
+};
+
+module.exports = { validateAuth, isAdmin };
