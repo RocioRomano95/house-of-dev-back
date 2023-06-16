@@ -5,6 +5,7 @@ const {
   edit_property,
   delete_property,
 } = require("../controllers/propertyControllers");
+const { validateAuth, isAdmin } = require("../middlewares");
 
 router.post("/create", add_property);
 router.put("/edit-property", edit_property);
