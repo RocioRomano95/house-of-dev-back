@@ -99,7 +99,7 @@ exports.search_locality = async (req, res) => {
     });
     if (!oneProperty)
       return res.send("no se encontraron propiedades en esta localidad");
-    console.log("ONEPROPee=>", oneProperty);
+
     res.status(200).send(oneProperty);
   } catch (error) {
     console.log("ERROR", error.message);
@@ -120,7 +120,6 @@ exports.search_state = async (req, res) => {
 };
 
 exports.search_category = async (req, res) => {
-  console.log("hola");
   const { categorysearch } = req.params;
   try {
     const property = await Property.findAll({
