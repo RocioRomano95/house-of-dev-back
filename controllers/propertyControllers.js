@@ -1,9 +1,12 @@
 const { Property, Category } = require("../models");
+const { sequelize } = require("../models/Users");
+const Sequelize = require("sequelize");
 
 exports.get_all_properties = async (req, res) => {
   const property = await Property.findAll({
     include: { model: Category, as: "category" },
   });
+  console.log("PRopertiiiiessss", property);
   try {
     if (!property) res.status(400).send("no hay propiedades");
     res.status(200).send(property);
@@ -50,7 +53,7 @@ exports.add_property = async (req, res) => {
     res.status(201).send(newProperty);
   } catch (error) {
     console.log();
-    res.send(error);
+    res.status(400).send(error);
   }
 };
 
@@ -73,10 +76,10 @@ exports.edit_property = async (req, res) => {
 
 exports.delete_property = async (req, res) => {
   try {
-    const property = req.params;
+    const property = req.params.id;
 
     const deleteProperty = await Property.destroy({
-      where: { id: property.id },
+      where: { id: property },
     });
     res.sendStatus(202);
   } catch (error) {
@@ -85,13 +88,18 @@ exports.delete_property = async (req, res) => {
 };
 
 exports.search_locality = async (req, res) => {
-  const { locality } = req.params;
+  const { locality, state } = req.params;
   try {
+    //traeme todas las propiedades
     const oneProperty = await Property.findAll({
-      where: { locality },
+      where: {
+        locality: { [Sequelize.Op.like]: `%${locality}%` },
+        state: { [Sequelize.Op.like]: `%${state}%` },
+      },
     });
     if (!oneProperty)
       return res.send("no se encontraron propiedades en esta localidad");
+
     res.status(200).send(oneProperty);
   } catch (error) {
     console.log("ERROR", error.message);

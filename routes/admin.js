@@ -5,6 +5,7 @@ const {
   edit_property,
   delete_property,
 } = require("../controllers/propertyControllers");
+const { validateAuth, isAdmin } = require("../middlewares");
 
 const { accept_visit } = require("../controllers/visitControllers");
 
