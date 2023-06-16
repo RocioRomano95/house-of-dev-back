@@ -35,12 +35,6 @@ User.init(
   { sequelize: db, modelName: "user" }
 );
 
-// User.beforeSave((user) => {
-//   if (user.email) {
-//     user.email = user.email.toLowerCase();
-//   }
-// });
-
 User.beforeCreate((user) => {
   const salt = bc.genSaltSync();
   user.salt = salt;
