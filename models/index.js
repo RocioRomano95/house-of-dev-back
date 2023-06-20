@@ -12,6 +12,9 @@ Property.hasMany(Visit, { foreignKey: "propertyId", as: "visits" }); // Agrega e
 
 Users.hasMany(Visit, { foreignKey: "userId", as: "visits" });
 
+Visit.belongsTo(Users);
+Visit.belongsTo(Property);
+
 Favorites.belongsTo(Users, { foreignKey: "userId" });
 Favorites.belongsTo(Property, { foreignKey: "propertyId" });
 

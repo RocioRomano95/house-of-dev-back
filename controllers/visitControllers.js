@@ -2,19 +2,12 @@ const { Visit, Users, Property } = require("../models");
 
 exports.add_visit = async (req, res) => {
   const { id } = req.params;
-  const { userId, date, propertyId, hour } = req.body;
+  const { userId, date, hour } = req.body;
 
   try {
-    const selectProperty = await Property.findOne({
-      where: { id },
-    });
-
-    console.log("SELECT VISIT", selectProperty);
-
     const visits = await Visit.findOne({
-      where: { date, hour, propertyId: id, userId },
+      where: { is_booked: false, propertyId: id, userId },
     });
-    console.log("VISITS", visits);
 
     if (!visits) {
       const createVisit = await Visit.create({
@@ -23,10 +16,10 @@ exports.add_visit = async (req, res) => {
         hour,
         propertyId: id,
       });
-      console.log("CREATE VISIT", createVisit);
-      res.status(200).send(createVisit);
+
+      return res.status(200).send(createVisit);
     }
-    res.status(400).send("Ya existe una cita");
+    res.status(409).send("Ya existe una cita");
   } catch (error) {
     console.log(error);
     res.send(error);
@@ -127,8 +120,8 @@ exports.all_visits = async (req, res) => {
 
     console.log("VISIT", visit);
 
-    if (!visit) res.status(400).send(visit);
-    res.status(200).send(visit);
+    if (visit) return res.status(200).send(visit);
+    res.status(400).send("no tienes visitas agendadas");
   } catch (error) {
     console.log(error);
   }
