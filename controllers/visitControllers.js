@@ -9,7 +9,7 @@ exports.add_visit = async (req, res) => {
       where: { id },
     });
 
-    console.log("SELECT VISIT", selectProperty);
+    console.log("SELECT Property", selectProperty);
 
     const visits = await Visit.findOne({
       where: { date, hour, propertyId: id, userId },
@@ -24,7 +24,7 @@ exports.add_visit = async (req, res) => {
         propertyId: id,
       });
       console.log("CREATE VISIT", createVisit);
-      res.status(200).send(createVisit);
+      return res.status(200).send(createVisit);
     }
     res.status(400).send("Ya existe una cita");
   } catch (error) {
@@ -127,8 +127,8 @@ exports.all_visits = async (req, res) => {
 
     console.log("VISIT", visit);
 
-    if (!visit) res.status(400).send(visit);
-    res.status(200).send(visit);
+    if (visit) return res.status(200).send(visit);
+    res.status(400).send("no tienes visitas agendadas");
   } catch (error) {
     console.log(error);
   }
