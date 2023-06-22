@@ -14,4 +14,5 @@ router.put("/edit-property", edit_property);
 router.delete("/delete-property/:id", delete_property);
 router.put("/accept-visit", accept_visit);
 
+
 module.exports = router;
