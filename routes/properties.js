@@ -11,7 +11,7 @@ const { Property } = require("../models");
 
 router.get("/", get_all_properties);
 router.get("/:id", property_detail);
-router.get("/search/:locality/:state", search_locality);
+router.get("/search/:locality/:state/:categorysearch", search_locality);
 // router.get("/filter-state/:state", search_state);
-router.get("/filter-category/:categorysearch/:state", search_category);
+// router.get("/filter-category/:categorysearch/:state", search_category);
 module.exports = router;
