@@ -7,6 +7,7 @@ const {
   edit_user,
 } = require("../controllers/userControllers");
 const { validateAuth } = require("../middlewares");
+const { user_visits } = require("../controllers/visitControllers");
 
 router.post("/signup", signup_user);
 router.post("/login", login_user);
@@ -15,8 +16,6 @@ router.get("/me", validateAuth, (req, res) => {
 });
 router.get("/logout", validateAuth, logout_user);
 router.put("/edit-user", validateAuth, edit_user);
-// router.use("/", (req, res) => {
-//   res.sendStatus(404);
-// });
+router.get("/user-visits/:userId", user_visits);
 
 module.exports = router;

@@ -12,6 +12,6 @@ const { accept_visit } = require("../controllers/visitControllers");
 router.post("/create", add_property);
 router.put("/edit-property", edit_property);
 router.delete("/delete-property/:id", delete_property);
-router.put("/accept_visit/:id", accept_visit);
+router.put("/accept-visit/:id", accept_visit);
 
 module.exports = router;

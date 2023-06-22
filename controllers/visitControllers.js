@@ -1,4 +1,5 @@
 const { Visit, Users, Property } = require("../models");
+const User = require("../models/Users");
 
 exports.add_visit = async (req, res) => {
   const { id } = req.params;
@@ -7,6 +8,7 @@ exports.add_visit = async (req, res) => {
   try {
     const visits = await Visit.findOne({
       where: { is_booked: false, propertyId: id, userId },
+      /* where: { hour, date }, */ //con este me deja cerar muchas citas al usuario en la misma propiedad siempre y cuando sea en diferente hora y fecha.
     });
 
     if (!visits) {
@@ -27,18 +29,13 @@ exports.add_visit = async (req, res) => {
 };
 
 exports.accept_visit = async (req, res) => {
-  // const { propertyId, userId, is_booked } = req.body;
-  // const { id } = req.params;
-  const acceptVisit = req.body;
-  console.log("ACCEPT VISIT", req.body);
+  const acceptVisit = req.params;
+  console.log("ACCEPT VISIT", req.params);
 
   try {
     const selectVisit = await Visit.update(acceptVisit, {
       where: {
         id: acceptVisit.id, //este es el id de la cita lo cambie en la ruta
-        // propertyId,
-        // userId,
-        //is_booked,se lo saco por q desde el postman no envio este valor y me tira un undefined
       },
       returning: true,
     });
@@ -51,7 +48,6 @@ exports.accept_visit = async (req, res) => {
     res.status(201).send(selectVisit[1][0]);
 
     console.log("save visit", selectVisit[1][0]);
-    //res.status(201).send(selectVisit);
   } catch (error) {
     console.log(error);
     res.send(error.message);
@@ -93,5 +89,35 @@ exports.all_visits = async (req, res) => {
     res.status(400).send("no tienes visitas agendadas");
   } catch (error) {
     console.log(error);
+  }
+};
+
+exports.user_visits = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const visits = await Visit.findAll({
+      include: [
+        {
+          model: Property,
+          as: "property",
+        },
+        {
+          model: Users,
+          as: "user",
+          attributes: { exclude: ["password", "salt"] },
+        },
+      ],
+      where: { "$user.id$": userId },
+    });
+    console.log("VISITAS", visits);
+
+    if (visits == false) {
+      //Visits de no tener visitas agendadas ni pendientes me trae un array vacio [].
+      console.log("Hola soy visitas");
+      return res.status(400).send("No tiene visitas agendadas");
+    }
+    res.status(200).send(visits);
+  } catch (error) {
+    console.log("ERROR", error.message);
   }
 };
