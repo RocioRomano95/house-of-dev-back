@@ -60,7 +60,6 @@ exports.add_property = async (req, res) => {
 exports.edit_property = async (req, res) => {
   try {
     const editProperty = req.body;
-    console.log("EDIT PROPERTY=>", editProperty);
     const updateProperty = await Property.update(editProperty, {
       where: { id: editProperty.id },
       returning: true,
@@ -89,12 +88,9 @@ exports.delete_property = async (req, res) => {
 
 exports.search_locality = async (req, res) => {
   let { locality, state, categorysearch } = req.params;
-  console.log("JORGEE", req.params);
 
   try {
-    console.log("ENTRA AQUI", categorysearch);
     if (categorysearch == "1") {
-      console.log("PORQ NULL", categorysearch);
       categorysearch = "";
     }
     if (locality == "1") {
@@ -102,7 +98,6 @@ exports.search_locality = async (req, res) => {
     }
     //traeme todas las propiedades
     if (categorysearch && locality) {
-      console.log("AMBAS", categorysearch, locality);
       const oneProperty = await Property.findAll({
         where: {
           locality: { [Sequelize.Op.like]: `%${locality}%` },
