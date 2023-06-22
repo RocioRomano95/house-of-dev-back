@@ -27,31 +27,20 @@ exports.add_visit = async (req, res) => {
 };
 
 exports.accept_visit = async (req, res) => {
-  // const { propertyId, userId, is_booked } = req.body;
-  // const { id } = req.params;
+  const { id } = req.body;
   const acceptVisit = req.body;
-  console.log("ACCEPT VISIT", req.body);
 
   try {
     const selectVisit = await Visit.update(acceptVisit, {
       where: {
-        id: acceptVisit.id, //este es el id de la cita lo cambie en la ruta
-        // propertyId,
-        // userId,
-        //is_booked,se lo saco por q desde el postman no envio este valor y me tira un undefined
+        id: id,
       },
       returning: true,
     });
-    console.log("select VISIT", selectVisit[1][0]);
-    if (selectVisit[1][0].is_booked) {
-      return res.status(404).send("ya hay una cita agendada");
-    }
-    selectVisit[1][0].is_booked = true;
-    selectVisit[1][0].save();
+
     res.status(201).send(selectVisit[1][0]);
 
     console.log("save visit", selectVisit[1][0]);
-    //res.status(201).send(selectVisit);
   } catch (error) {
     console.log(error);
     res.send(error.message);
@@ -86,8 +75,6 @@ exports.all_visits = async (req, res) => {
         },
       ],
     });
-
-    console.log("VISIT", visit);
 
     if (visit) return res.status(200).send(visit);
     res.status(400).send("no tienes visitas agendadas");

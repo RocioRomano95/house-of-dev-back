@@ -11,7 +11,7 @@ router.use("/users", users);
 router.use("/properties", properties);
 router.use("/visits", visit);
 
-router.use("/admin", validateAuth, isAdmin, admin, visit);
+router.use("/admin", validateAuth, isAdmin, admin);
 router.use("/favorites", validateAuth, favorites);
 
 module.exports = router;
