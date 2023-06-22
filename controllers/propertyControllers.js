@@ -6,7 +6,6 @@ exports.get_all_properties = async (req, res) => {
   const property = await Property.findAll({
     include: { model: Category, as: "category" },
   });
-  console.log("PRopertiiiiessss", property);
   try {
     if (!property) res.status(400).send("no hay propiedades");
     res.status(200).send(property);
@@ -20,6 +19,7 @@ exports.property_detail = async (req, res) => {
   try {
     const oneProperty = await Property.findOne({
       where: { id: id },
+      include: { model: Category, as: "category" },
     });
     console.log("ONEPROP=>", oneProperty);
     res.status(200).send(oneProperty);
@@ -88,19 +88,57 @@ exports.delete_property = async (req, res) => {
 };
 
 exports.search_locality = async (req, res) => {
-  const { locality, state } = req.params;
-  try {
-    //traeme todas las propiedades
-    const oneProperty = await Property.findAll({
-      where: {
-        locality: { [Sequelize.Op.like]: `%${locality}%` },
-        state: { [Sequelize.Op.like]: `%${state}%` },
-      },
-    });
-    if (!oneProperty)
-      return res.send("no se encontraron propiedades en esta localidad");
+  let { locality, state, categorysearch } = req.params;
+  console.log("JORGEE", req.params);
 
-    res.status(200).send(oneProperty);
+  try {
+    console.log("ENTRA AQUI", categorysearch);
+    if (categorysearch == "1") {
+      console.log("PORQ NULL", categorysearch);
+      categorysearch = "";
+    }
+    if (locality == "1") {
+      locality = "";
+    }
+    //traeme todas las propiedades
+    if (categorysearch && locality) {
+      console.log("AMBAS", categorysearch, locality);
+      const oneProperty = await Property.findAll({
+        where: {
+          locality: { [Sequelize.Op.like]: `%${locality}%` },
+          state: { [Sequelize.Op.like]: `%${state}%` },
+          "$category.name$": categorysearch,
+        },
+        include: { model: Category, as: "category" },
+      });
+      if (!oneProperty)
+        return res.send("no se encontraron propiedades en esta localidad");
+
+      return res.status(200).send(oneProperty);
+    }
+    if (categorysearch) {
+      console.log("CATEGORYSEARCH");
+      const property = await Property.findAll({
+        where: {
+          "$category.name$": categorysearch,
+        },
+        include: { model: Category, as: "category" },
+      });
+      return res.status(200).send(property);
+    }
+    if (locality) {
+      console.log("LOCALITY", locality);
+      const oneProperty = await Property.findAll({
+        where: {
+          locality: { [Sequelize.Op.like]: `%${locality}%` },
+          state: { [Sequelize.Op.like]: `%${state}%` },
+        },
+      });
+      if (!oneProperty)
+        return res.send("no se encontraron propiedades en esta localidad");
+
+      return res.status(200).send(oneProperty);
+    }
   } catch (error) {
     console.log("ERROR", error.message);
   }
