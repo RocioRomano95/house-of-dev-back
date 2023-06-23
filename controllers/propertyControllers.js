@@ -1,5 +1,4 @@
 const { Property, Category } = require("../models");
-const { sequelize } = require("../models/Users");
 const Sequelize = require("sequelize");
 
 exports.get_all_properties = async (req, res) => {
